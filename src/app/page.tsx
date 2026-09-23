@@ -1,7 +1,16 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
   const services = [
     { t: "Diseño de Sitios", d: "Landing pages optimizadas para convertir visitas en clientes. Rápidas, premium, a medida." },
     { t: "Sitios E-Commerce", d: "Tiendas con pagos, stock y envíos. Integración con WhatsApp y sistemas de gestión." },
@@ -12,6 +21,25 @@ export default function Home() {
     { name: "VIT CRISTALES", tag: "E-commerce", desc: "Tienda con carrito y pago integrado." },
     { name: "Tu próximo proyecto", tag: "Disponible", desc: "Cotización en 24hs. 100% a medida." },
   ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    const { error } = await supabase.from('contacts').insert({ name, email, message });
+
+    setLoading(false);
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      alert("¡Mensaje enviado! Te respondo en 24hs.");
+      (e.target as HTMLFormElement).reset();
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#0A1931] text-white relative overflow-hidden selection:bg-white selection:text-[#0A1931]">
@@ -34,7 +62,6 @@ export default function Home() {
         <p className="mt-8 text-lg text-white/60 max-w-xl">Landing Pages • Dashboards • E-commerce. Sin plantillas. Sistemas que convierten.</p>
       </section>
 
-      {/* === NUEVO 1: STATS BAR === */}
       <section className="relative z-10 border-y border-white/10 bg-white/[0.02] backdrop-blur">
         <div className="px-8 md:px-16 py-6 grid grid-cols-3 md:grid-cols-4 gap-6 text-center">
           <div><p className="text-2xl md:text-3xl font-black">24hs</p><p className="text-[10px] tracking-widest text-white/40 mt-1">TIEMPO DE RESPUESTA</p></div>
@@ -56,7 +83,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* === NUEVO 2: CÓMO TRABAJO === */}
       <section className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10">
         <h3 className="text-white/40 text-xs tracking-[0.3em] mb-10">PROCESO / CÓMO TRABAJO</h3>
         <div className="grid md:grid-cols-3 gap-6">
@@ -86,7 +112,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* === NUEVO 3: FAQ === */}
       <section className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10 bg-[#0b1d3d]/30">
         <div className="grid md:grid-cols-[0.8fr_1.2fr] gap-12">
           <div><h3 className="text-3xl font-black leading-tight">Preguntas<br/>frecuentes</h3><p className="mt-4 text-white/50 text-sm">Lo que todos me preguntan antes de empezar.</p></div>
@@ -115,11 +140,13 @@ export default function Home() {
           </div>
           <div className="order-1 md:order-2 max-w-md md:ml-auto w-full bg-gradient-to-br from-[#122545] to-[#0d1d3a] border border-white/10 rounded-[32px] p-8">
             <h3 className="text-3xl font-black">Hablemos de tu proyecto</h3>
-            <form action="https://formspree.io/f/xppwdrej" method="POST" className="mt-6 grid gap-4">
+            <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
               <input name="name" placeholder="Tu nombre" required className="bg-[#0A1931]/60 border border-white/10 rounded-full px-6 py-4 outline-none" />
               <input name="email" type="email" placeholder="Tu email" required className="bg-[#0A1931]/60 border border-white/10 rounded-full px-6 py-4 outline-none" />
               <textarea name="message" placeholder="Contame tu idea..." rows={4} required className="bg-[#0A1931]/60 border border-white/10 rounded-[24px] px-6 py-4 outline-none"></textarea>
-              <button type="submit" className="bg-white text-[#0A1931] rounded-full py-4 font-bold">Enviar mensaje →</button>
+              <button type="submit" disabled={loading} className="bg-white text-[#0A1931] rounded-full py-4 font-bold disabled:opacity-50">
+                {loading? "Enviando..." : "Enviar mensaje →"}
+              </button>
             </form>
           </div>
         </div>
