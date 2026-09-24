@@ -30,14 +30,26 @@ export default function Home() {
     const email = formData.get('email') as string;
     const message = formData.get('message') as string;
 
-    const { error } = await supabase.from('contacts').insert({ name, email, message });
+    try {
+      // 1. Guardar en Supabase
+      const { error: supabaseError } = await supabase.from('contacts').insert({ name, email, message });
+      if (supabaseError) throw supabaseError;
 
-    setLoading(false);
-    if (error) {
-      alert("Error: " + error.message);
-    } else {
+      // 2. Mandar mail via Resend a lacroixdevops@gmail.com
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (!res.ok) throw new Error('Error enviando mail');
+
       alert("¡Mensaje enviado! Te respondo en 24hs.");
       (e.target as HTMLFormElement).reset();
+    } catch (err: any) {
+      alert("Error: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
