@@ -11,15 +11,39 @@ const supabase = createClient(
 export default function Home() {
   const [loading, setLoading] = useState(false);
 
-  const services = [
-    { t: "Diseño de Sitios", d: "Landing pages optimizadas para convertir visitas en clientes. Rápidas, premium, a medida." },
-    { t: "Sitios E-Commerce", d: "Tiendas con pagos, stock y envíos. Integración con WhatsApp y sistemas de gestión." },
-    { t: "Dashboards a Medida", d: "Sistemas como Presupuestar PRO. Gestión de stock, clientes y presupuestos." },
-  ];
   const projects = [
-    { name: "Presupuestar PRO", tag: "Dashboard / SaaS", desc: "Sistema de presupuestos, stock y clientes." },
-    { name: "VIT CRISTALES", tag: "E-commerce", desc: "Tienda con carrito y pago integrado." },
-    { name: "Tu próximo proyecto", tag: "Disponible", desc: "Cotización en 24hs. 100% a medida." },
+    {
+      name: "ESTUDIO — Lab",
+      tag: "Landing Premium",
+      desc: "Arquitectura atemporal. Diseño estilo revista.",
+      link: "https://estudio-lab.vercel.app/",
+      img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800",
+      color: "from-[#F6F5F2] to-[#E8E6E1]",
+    },
+    {
+      name: "TURNO LAB",
+      tag: "SaaS / Agendamiento",
+      desc: "Sistema de turnos online con WhatsApp y recordatorios automáticos.",
+      link: "https://turno-lab.vercel.app/",
+      img: "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800",
+      color: "from-[#0A1931] to-[#1E3A8A]",
+    },
+    {
+      name: "Presupuestar PRO",
+      tag: "Dashboard / SaaS",
+      desc: "Sistema de presupuestos, stock y clientes.",
+      link: "#",
+      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
+      color: "from-[#122545] to-[#0d1d3a]",
+    },
+    {
+      name: "VIT CRISTALES",
+      tag: "E-commerce",
+      desc: "Tienda con carrito y pago integrado.",
+      link: "#",
+      img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800",
+      color: "from-[#1a1a1a] to-[#2a2a2a]",
+    },
   ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,21 +53,14 @@ export default function Home() {
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const message = formData.get('message') as string;
-
     try {
-      // 1. Guardar en Supabase
-      const { error: supabaseError } = await supabase.from('contacts').insert({ name, email, message });
-      if (supabaseError) throw supabaseError;
-
-      // 2. Mandar mail via Resend a lacroixdevops@gmail.com
-      const res = await fetch('/api/contact', {
+      const { error } = await supabase.from('contacts').insert({ name, email, message });
+      if (error) throw error;
+      await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message })
       });
-
-      if (!res.ok) throw new Error('Error enviando mail');
-
       alert("¡Mensaje enviado! Te respondo en 24hs.");
       (e.target as HTMLFormElement).reset();
     } catch (err: any) {
@@ -54,126 +71,113 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A1931] text-white relative overflow-hidden selection:bg-white selection:text-[#0A1931]">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: `radial-gradient(white 1px, transparent 1px)`, backgroundSize: '32px 32px'}} />
-        <motion.div animate={{x:[0,100,0], y:[0,50,0]}} transition={{duration:20, repeat:Infinity, ease:"easeInOut"}} className="absolute top-[-100px] left-[10%] w-[800px] h-[600px] bg-gradient-to-br from-[#1e3a8a]/40 to-[#3b82f6]/20 rounded-full blur-[120px]" />
-        <motion.div animate={{x:[0,-80,0], y:[0,100,0]}} transition={{duration:25, repeat:Infinity, ease:"easeInOut"}} className="absolute top-[30%] right-[-10%] w-[600px] h-[600px] bg-gradient-to-br from-[#6366f1]/20 to-transparent rounded-full blur-[130px]" />
+    <main className="min-h-screen bg-[#070E22] text-white selection:bg-white selection:text-[#070E22]">
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.02]" style={{backgroundImage: `radial-gradient(white 1px, transparent 1px)`, backgroundSize: '40px 40px'}} />
+        <motion.div animate={{x:[0,80,0], y:[0,40,0]}} transition={{duration:18, repeat:Infinity, ease:"easeInOut"}} className="absolute top-[-10%] left-[5%] w-[900px] h-[700px] bg-[#1E3A8A]/30 rounded-full blur-[140px]" />
+        <motion.div animate={{x:[0,-60,0], y:[0,80,0]}} transition={{duration:22, repeat:Infinity, ease:"easeInOut"}} className="absolute bottom-[-10%] right-[-5%] w-[700px] h-[700px] bg-[#6366F1]/15 rounded-full blur-[140px]" />
       </div>
 
-      <header className="relative flex justify-between items-center px-8 md:px-16 py-8 z-10">
-        <h1 className="text-2xl tracking-[0.3em] font-light">LX</h1>
-        <a href="https://wa.me/5493584326915" className="border border-white/20 rounded-full px-6 py-2.5 text-sm hover:bg-white hover:text-[#0A1931] transition backdrop-blur-md">Hablemos →</a>
+      <header className="relative flex justify-between items-center px-6 md:px-12 py-6 z-50 sticky top-0 backdrop-blur-xl bg-[#070E22]/70 border-b border-white/5">
+        <h1 className="text-[22px] tracking-[0.35em] font-black">LX</h1>
+        <div className="flex gap-3">
+          <a href="#trabajos" className="hidden md:block text-[11px] font-bold tracking-widest text-white/40 hover:text-white transition px-5 py-2.5">TRABAJOS</a>
+          <a href="https://wa.me/5493584326915" className="bg-white text-black rounded-full px-6 py-2.5 text-[11px] font-black tracking-widest hover:bg-white/90 transition">HABLEMOS →</a>
+        </div>
       </header>
 
-      <section className="relative px-8 md:px-16 pt-20 md:pt-32 pb-20 z-10">
-        <motion.div initial={{opacity:0}} animate={{opacity:1}} className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 text-xs text-white/60 bg-white/[0.03] backdrop-blur mb-8">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" /> Disponible para nuevos proyectos
+      <section className="relative px-6 md:px-12 pt-20 md:pt-28 pb-16 z-10 max-w-[1400px] mx-auto">
+        <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-2 text-[11px] font-bold tracking-widest text-white/50 bg-white/[0.04] backdrop-blur mb-8">
+          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" /> DISPONIBLE • 2 CUPOS EN NOVIEMBRE
         </motion.div>
-        <motion.h2 initial={{y:40, opacity:0}} animate={{y:0, opacity:1}} transition={{duration:0.8}} className="text-5xl md:text-8xl font-black leading-[0.9] tracking-tight">DESARROLLO WEB<br/>A MEDIDA</motion.h2>
-        <p className="mt-8 text-lg text-white/60 max-w-xl">Landing Pages • Dashboards • E-commerce. Sin plantillas. Sistemas que convierten.</p>
-      </section>
-
-      <section className="relative z-10 border-y border-white/10 bg-white/[0.02] backdrop-blur">
-        <div className="px-8 md:px-16 py-6 grid grid-cols-3 md:grid-cols-4 gap-6 text-center">
-          <div><p className="text-2xl md:text-3xl font-black">24hs</p><p className="text-[10px] tracking-widest text-white/40 mt-1">TIEMPO DE RESPUESTA</p></div>
-          <div><p className="text-2xl md:text-3xl font-black">100%</p><p className="text-[10px] tracking-widest text-white/40 mt-1">A MEDIDA, SIN PLANTILLAS</p></div>
-          <div><p className="text-2xl md:text-3xl font-black">+15</p><p className="text-[10px] tracking-widest text-white/40 mt-1">PROYECTOS ENTREGADOS</p></div>
-          <div className="hidden md:block"><p className="text-2xl md:text-3xl font-black">Río Cuarto → País</p><p className="text-[10px] tracking-widest text-white/40 mt-1">BASE LOCAL, ALCANCE NACIONAL</p></div>
+        <motion.h2 initial={{y:40, opacity:0}} animate={{y:0, opacity:1}} transition={{duration:0.8}} className="text-[48px] md:text-[96px] font-black leading-[0.85] tracking-[-0.04em]">SITIOS QUE<br/><span className="font-light italic text-white/50">venden.</span><br/>NO QUE SE VEN<br/>LINDOS.</motion.h2>
+        <div className="mt-8 flex flex-col md:flex-row gap-8 md:items-end justify-between">
+          <p className="text-[15px] md:text-[17px] text-white/50 max-w-[520px] leading-relaxed font-medium">Landing Pages premium, Dashboards y E-commerce hechos en Next.js. Sin plantillas. Rápidos, convertidores, a medida.<br/><span className="text-white/80">Río Cuarto → Todo el país.</span></p>
+          <div className="flex gap-3">
+            <a href="#trabajos" className="bg-white text-black rounded-full px-8 py-4 text-xs font-black tracking-widest">VER TRABAJOS</a>
+            <a href="#contacto" className="border border-white/10 rounded-full px-8 py-4 text-xs font-black tracking-widest hover:bg-white/5 transition">COTIZAR</a>
+          </div>
         </div>
       </section>
 
-      <section id="servicios" className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10 bg-gradient-to-b from-transparent to-[#0e2140]/30">
-        <h3 className="text-white/40 text-xs tracking-[0.3em] mb-10">SERVICIOS / WHAT WE DO</h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((s,i) => (
-            <motion.div key={s.t} initial={{y:30, opacity:0}} whileInView={{y:0, opacity:1}} viewport={{once:true}} transition={{delay:i*0.1}} className="border border-white/10 rounded-[32px] p-8 bg-gradient-to-br from-[#122545] to-[#0d1d3a] hover:border-white/20 transition">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6">◫</div>
-              <h3 className="font-bold text-xl">{s.t}</h3><p className="mt-3 text-white/50 text-sm leading-relaxed">{s.d}</p>
-            </motion.div>
-          ))}
+      <section className="relative z-10 border-y border-white/[0.06] bg-white/[0.02]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-5 grid grid-cols-3 md:grid-cols-4 gap-6">
+          <div><p className="text-2xl font-black">7 días</p><p className="text-[10px] tracking-widest text-white/30 mt-1 font-black">ENTREGA LANDING</p></div>
+          <div><p className="text-2xl font-black">+16</p><p className="text-[10px] tracking-widest text-white/30 mt-1 font-black">PROYECTOS</p></div>
+          <div><p className="text-2xl font-black">100/100</p><p className="text-[10px] tracking-widest text-white/30 mt-1 font-black">LIGHTHOUSE SCORE</p></div>
+          <div className="hidden md:block"><p className="text-2xl font-black">24hs</p><p className="text-[10px] tracking-widest text-white/30 mt-1 font-black">RESPUESTA</p></div>
         </div>
       </section>
 
-      <section className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10">
-        <h3 className="text-white/40 text-xs tracking-[0.3em] mb-10">PROCESO / CÓMO TRABAJO</h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {n:"01", t:"Descubrimiento", d:"15 min de call. Entendemos tu negocio, tu cliente y tu objetivo. Sin humo."},
-            {n:"02", t:"Diseño & Desarrollo", d:"Figma + código. Ves avances cada 48hs. Feedback rápido en WhatsApp."},
-            {n:"03", t:"Lanzamiento & Soporte", d:"Deploy en Vercel, dominio conectado, capacitación y soporte 30 días."},
-          ].map((p,i) => (
-            <motion.div key={p.n} initial={{y:20, opacity:0}} whileInView={{y:0, opacity:1}} viewport={{once:true}} transition={{delay:i*0.1}} className="relative rounded-[32px] border border-white/10 p-8 bg-[#122545]/50">
-              <span className="text-5xl font-black text-white/10">{p.n}</span>
-              <h4 className="mt-4 font-bold text-lg">{p.t}</h4>
-              <p className="mt-2 text-white/50 text-sm leading-relaxed">{p.d}</p>
-            </motion.div>
-          ))}
+      <section id="trabajos" className="relative px-6 md:px-12 py-24 z-10 max-w-[1400px] mx-auto">
+        <div className="flex justify-between items-end mb-10">
+          <h3 className="text-white/30 text-[11px] tracking-[0.35em] font-black">TRABAJOS / 2024 — 2026</h3>
+          <p className="text-[11px] font-bold tracking-widest text-white/20 hidden md:block">4 PROYECTOS SELECCIONADOS</p>
         </div>
-      </section>
-
-      <section id="trabajos" className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10">
-        <h3 className="text-white/40 text-xs tracking-[0.3em] mb-10">TRABAJOS RECIENTES / SELECTED WORKS</h3>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           {projects.map((p,i) => (
-            <motion.div key={p.name} initial={{y:30, opacity:0}} whileInView={{y:0, opacity:1}} viewport={{once:true}} transition={{delay:i*0.1}} className="border border-white/10 rounded-[32px] p-8 bg-[#122545]/80 backdrop-blur hover:bg-[#1a3360]/80 transition">
-              <span className="text-xs border border-white/10 rounded-full px-3 py-1 text-white/40">{p.tag}</span>
-              <h4 className="mt-6 text-xl font-bold">{p.name}</h4><p className="mt-2 text-white/50 text-sm">{p.desc}</p>
-            </motion.div>
+            <motion.a href={p.link} target="_blank" key={p.name} initial={{y:30, opacity:0}} whileInView={{y:0, opacity:1}} viewport={{once:true}} transition={{delay:i*0.08}}
+              className="group relative border border-white/10 rounded-[28px] overflow-hidden bg-gradient-to-br p-[1px] hover:border-white/20 transition-all">
+              <div className={`rounded-[27px] bg-gradient-to-br ${p.color} p-7 md:p-8 h-[380px] flex flex-col justify-between relative overflow-hidden`}>
+                <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition bg-cover bg-center" style={{backgroundImage:`url(${p.img})`}}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                <div className="relative z-10 flex justify-between">
+                  <span className="text-[10px] font-black tracking-widest px-3 py-1.5 rounded-full bg-black/40 backdrop-blur border border-white/10 text-white">{p.tag}</span>
+                  <span className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center text-xs group-hover:rotate-45 transition-transform">↗</span>
+                </div>
+                <div className="relative z-10">
+                  <h4 className={`text-[28px] font-black leading-[0.9] tracking-tight ${p.name.includes('ESTUDIO')? 'text-black' : 'text-white'}`}>{p.name}</h4>
+                  <p className={`mt-2 text-[13px] font-bold leading-relaxed ${p.name.includes('ESTUDIO')? 'text-black/60' : 'text-white/60'}`}>{p.desc}</p>
+                  {p.name === "TURNO LAB" && <p className="mt-3 inline-block text-[10px] font-black tracking-widest px-3 py-1 rounded-full bg-emerald-400 text-black">NUEVO • 2026</p>}
+                </div>
+              </div>
+            </motion.a>
           ))}
         </div>
       </section>
 
-      <section className="relative px-8 md:px-16 py-20 border-t border-white/10 z-10 bg-[#0b1d3d]/30">
-        <div className="grid md:grid-cols-[0.8fr_1.2fr] gap-12">
-          <div><h3 className="text-3xl font-black leading-tight">Preguntas<br/>frecuentes</h3><p className="mt-4 text-white/50 text-sm">Lo que todos me preguntan antes de empezar.</p></div>
-          <div className="grid gap-3">
-            {[
-              {q:"¿Cuánto tarda un proyecto?", a:"Landing en 7-10 días. E-commerce 2-3 semanas. Dashboard depende del alcance, cotizamos por módulos."},
-              {q:"¿Trabajás con plantillas?", a:"No. Todo es a medida con Next.js + Tailwind. Más rápido, más seguro y sin pagar licencias."},
-              {q:"¿Cómo es el pago?", a:"50% para iniciar, 50% al entregar. Transferencia, aceptamos factura. Hosting y dominio aparte."},
-              {q:"¿Das soporte después?", a:"Sí, 30 días de soporte incluido para ajustes. Después plan de mantenimiento opcional."},
-            ].map((f) => (
-              <div key={f.q} className="rounded-[20px] border border-white/10 bg-[#122545]/60 p-6">
-                <p className="font-bold text-sm">{f.q}</p><p className="mt-2 text-white/50 text-sm leading-relaxed">{f.a}</p>
-              </div>
-            ))}
+      <section className="relative px-6 md:px-12 py-10 z-10 max-w-[1400px] mx-auto grid md:grid-cols-3 gap-5">
+        {[
+          {t:"Landing Premium", p:"Desde USD 350", d:"Diseño estilo revista, copy que vende, deploy en 7 días."},
+          {t:"E-Commerce Tech", p:"Desde USD 600", d:"Carrito, stock, pagos, WhatsApp. Optimizado mobile."},
+          {t:"SaaS / Turnos", p:"Desde USD 800", d:"Como TURNO LAB. Sistemas para gestionar tu negocio."},
+        ].map((s) => (
+          <div key={s.t} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-7 backdrop-blur">
+            <p className="text-[10px] font-black tracking-widest text-white/30">{s.p}</p>
+            <h4 className="mt-3 text-[18px] font-black">{s.t}</h4>
+            <p className="mt-2 text-[13px] font-medium leading-relaxed text-white/40">{s.d}</p>
           </div>
-        </div>
+        ))}
       </section>
 
-      <section id="contacto" className="relative px-8 md:px-16 py-24 border-t border-white/10 z-10">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="order-2 md:order-1">
-            <h3 className="text-2xl font-bold">Estamos en Río Cuarto</h3><p className="text-white/50 text-sm mb-6">Base en Córdoba, trabajo remoto para todo el país.</p>
-            <div className="rounded-[32px] overflow-hidden border border-white/10 h-[480px] bg-[#122545]">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107000!2d-64.38!3d-33.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95d2000e4f8a6a1b%3A0x1c1c1c1c!2sR%C3%ADo%20Cuarto!5e0!3m2!1ses!2sar!4v123" width="100%" height="100%" style={{border:0, filter:"invert(90%) hue-rotate(180deg)"}} loading="lazy"></iframe>
-            </div>
+      <section id="contacto" className="relative px-6 md:px-12 py-24 border-t border-white/10 z-10 max-w-[1400px] mx-auto">
+        <div className="grid md:grid-cols-2 gap-10 items-start">
+          <div className="rounded-[28px] overflow-hidden border border-white/10 h-[520px] bg-[#0d1d3a]">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107000!2d-64.38!3d-33.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95d2000e4f8a6a1b%3A0x1c1c1c1c!2sR%C3%ADo%20Cuarto!5e0!3m2!1ses!2sar!4v123" width="100%" height="100%" style={{border:0, filter:"invert(90%) hue-rotate(180deg)"}} loading="lazy"></iframe>
           </div>
-          <div className="order-1 md:order-2 max-w-md md:ml-auto w-full bg-gradient-to-br from-[#122545] to-[#0d1d3a] border border-white/10 rounded-[32px] p-8">
-            <h3 className="text-3xl font-black">Hablemos de tu proyecto</h3>
-            <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
-              <input name="name" placeholder="Tu nombre" required className="bg-[#0A1931]/60 border border-white/10 rounded-full px-6 py-4 outline-none" />
-              <input name="email" type="email" placeholder="Tu email" required className="bg-[#0A1931]/60 border border-white/10 rounded-full px-6 py-4 outline-none" />
-              <textarea name="message" placeholder="Contame tu idea..." rows={4} required className="bg-[#0A1931]/60 border border-white/10 rounded-[24px] px-6 py-4 outline-none"></textarea>
-              <button type="submit" disabled={loading} className="bg-white text-[#0A1931] rounded-full py-4 font-bold disabled:opacity-50">
-                {loading? "Enviando..." : "Enviar mensaje →"}
+          <div className="max-w-md md:ml-auto w-full bg-white text-black rounded-[28px] p-8">
+            <h3 className="text-[28px] font-black leading-[0.9] tracking-tight">Hablemos de<br/>tu proyecto.</h3>
+            <form onSubmit={handleSubmit} className="mt-6 grid gap-3">
+              <input name="name" placeholder="Tu nombre" required className="bg-black/[0.04] border border-black/10 rounded-full px-6 py-4 outline-none text-sm font-bold placeholder:text-black/30" />
+              <input name="email" type="email" placeholder="Tu email" required className="bg-black/[0.04] border border-black/10 rounded-full px-6 py-4 outline-none text-sm font-bold placeholder:text-black/30" />
+              <textarea name="message" placeholder="Contame tu idea..." rows={4} required className="bg-black/[0.04] border border-black/10 rounded-[20px] px-6 py-4 outline-none text-sm font-bold placeholder:text-black/30"></textarea>
+              <button type="submit" disabled={loading} className="bg-black text-white rounded-full py-4 font-black text-xs tracking-widest disabled:opacity-50">
+                {loading? "ENVIANDO..." : "ENVIAR MENSAJE →"}
               </button>
             </form>
           </div>
         </div>
       </section>
 
-      <footer className="relative px-8 md:px-16 py-12 border-t border-white/10 bg-[#060d1f] z-10">
-        <div className="flex flex-col md:flex-row justify-between gap-8">
-          <div><h4 className="text-xl tracking-[0.3em] font-light">LX - LACROIX LAB</h4><p className="mt-2 text-white/40 text-sm max-w-xs">Desarrollo web a medida. Sin plantillas, sistemas que convierten. Río Cuarto, Córdoba.</p></div>
-          <div className="flex gap-12 text-sm">
-            <div className="flex flex-col gap-2"><span className="text-white/20 text-xs tracking-widest">REDES</span><a href="https://instagram.com/lacroix.lab" className="text-white/60 hover:text-white">Instagram ↗</a><a href="https://wa.me/5493584326915" className="text-white/60 hover:text-white">WhatsApp ↗</a><a href="mailto:hola@lacroixlab.com.ar" className="text-white/60 hover:text-white">Email ↗</a></div>
-            <div className="flex flex-col gap-2"><span className="text-white/20 text-xs tracking-widest">SERVICIOS</span><span className="text-white/60">Landing Pages</span><span className="text-white/60">E-commerce</span><span className="text-white/60">Dashboards</span></div>
-            <div className="flex flex-col gap-2"><span className="text-white/20 text-xs tracking-widest">STACK</span><span className="text-white/60">Next.js</span><span className="text-white/60">Supabase</span><span className="text-white/60">Tailwind</span></div>
+      <footer className="relative px-6 md:px-12 py-12 border-t border-white/10 z-10 bg-[#050A18]">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between gap-8">
+          <div><h4 className="text-xl tracking-[0.3em] font-black">LX —</h4><p className="mt-2 text-white/30 text-sm max-w-xs font-bold leading-relaxed">Sitios premium que convierten. Hechos en Río Cuarto, para todo el país.</p></div>
+          <div className="flex gap-10 text-sm">
+            <div className="flex flex-col gap-2"><span className="text-white/20 text-[10px] tracking-widest font-black">REDES</span><a href="https://instagram.com/lacroix.lab" className="text-white/60 hover:text-white font-bold">Instagram ↗</a><a href="https://wa.me/5493584326915" className="text-white/60 hover:text-white font-bold">WhatsApp ↗</a></div>
+            <div className="flex flex-col gap-2"><span className="text-white/20 text-[10px] tracking-widest font-black">STACK</span><span className="text-white/40 font-bold">Next.js / Tailwind / Supabase / Vercel</span></div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between text-xs text-white/20"><p>© 2026 LACROIX LAB. Todos los derechos reservados.</p><p>Hecho con Next.js en Río Cuarto, Córdoba.</p></div>
+        <div className="max-w-[1400px] mx-auto mt-10 pt-8 border-t border-white/5 flex justify-between text-[10px] font-black tracking-widest text-white/20"><p>© 2026 LACROIX LAB</p><p>HECHO PARA VENDER</p></div>
       </footer>
     </main>
   );
