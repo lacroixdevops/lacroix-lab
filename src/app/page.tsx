@@ -57,6 +57,7 @@ export default function Home() {
       <section className="px-6 md:px-12 pt-20 md:pt-28 pb-12 max-w-[1400px] mx-auto">
         <div className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-2 text-[11px] font-bold tracking-widest text-white/50 bg-white/[0.04] mb-8"><span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" /> AGENDA ABIERTA Q4 2026</div>
         <h2 className="text-[44px] md:text-[80px] font-black leading-[0.88] tracking-[-0.04em]">Desarrollo web<br/><span className="font-light text-white/50">de alto rendimiento</span><br/>para empresas que<br/>buscan crecer.</h2>
+        <p className="mt-6 text-[14px] md:text-[15px] leading-[1.6] text-white/40 max-w-[520px] font-medium">Estudio especializado en Landing Pages, E-commerce y Sistemas a medida desarrollados en Next.js. Enfoque en rendimiento, diseño y conversión.</p>
       </section>
 
       <section id="trabajos" className="max-w-[1400px] mx-auto">
@@ -75,33 +76,45 @@ export default function Home() {
               <div className="px-4 py-3.5"><h4 className="text-[13px] font-black group-hover:text-[#93C5FD] transition">{p.name}</h4><p className="text-[11px] text-white/40 mt-1 truncate">{p.desc}</p></div>
             </motion.a>
           ))}
-          <div className="min-w-[280px] snap-start rounded-[16px] border border-dashed border-white/15 bg-white/[0.02] p-6 flex flex-col justify-between shrink-0"><div><p className="text-[10px] font-black tracking-widest text-white/20">PROYECTOS ADICIONALES</p><p className="text-[15px] font-black mt-2 leading-[1.2]">12 proyectos adicionales bajo acuerdo de confidencialidad.</p></div><a href="https://wa.me/5493584326915" className="mt-6 bg-white text-black rounded-full py-3 text-center text-[10px] font-black tracking-widest">SOLICITAR PORTFOLIO</a></div>
+          <div className="min-w-[280px] snap-start rounded-[16px] border border-dashed border-white/15 bg-white/[0.02] p-6 flex flex-col justify-between shrink-0"><div><p className="text-[10px] font-black tracking-widest text-white/20">PROYECTOS ADICIONALES</p><p className="text-[15px] font-black mt-2 leading-[1.2]">12 proyectos adicionales bajo acuerdo de confidencialidad.</p><p className="text-[11px] text-white/40 mt-2 leading-[1.5]">Portfolio completo disponible en reunión privada.</p></div><a href="https://wa.me/5493584326915" className="mt-6 bg-white text-black rounded-full py-3 text-center text-[10px] font-black tracking-widest">SOLICITAR PORTFOLIO</a></div>
         </div>
       </section>
 
+      {/* FIX MOBILE: sin sticky en celular */}
       <section className="px-6 md:px-12 py-20 max-w-[1400px] mx-auto border-t border-white/5">
         <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-12 items-start">
-          <div className="sticky top-28">
+          <div className="static md:sticky md:top-28 md:self-start">
             <p className="text-[10px] tracking-[0.35em] font-black text-[#60A5FA]">METODOLOGÍA DE TRABAJO</p>
             <h2 className="text-[32px] md:text-[44px] font-black leading-[0.9] mt-4 tracking-tight">Proceso estructurado,<br/><span className="text-white/30 font-light">entregables definidos.</span></h2>
             <p className="mt-4 text-[13px] leading-[1.6] text-white/40 max-w-[36ch]">Trabajamos por etapas con seguimiento cada 48 horas. Tiempos y costos definidos desde el inicio.</p>
+            <div className="mt-8 grid grid-cols-2 gap-3">
+              <div className="rounded-[14px] border border-white/10 bg-white/[0.03] p-4"><p className="text-[9px] font-black tracking-widest text-white/20">TIEMPO DE ENTREGA</p><p className="mt-1 text-[14px] font-black">7 a 14 días hábiles</p></div>
+              <div className="rounded-[14px] border border-white/10 bg-white/[0.03] p-4"><p className="text-[9px] font-black tracking-widest text-white/20">MODALIDAD DE PAGO</p><p className="mt-1 text-[14px] font-black">50% inicio / 50% entrega</p></div>
+            </div>
           </div>
+
           <div className="grid gap-3">
             {[
-              { n:"01", t:"Relevamiento y propuesta técnica", d:"Reunión inicial para relevar objetivos y alcance. Propuesta detallada en 24 horas.", list:["Reunión inicial","Propuesta técnica","Presupuesto"] },
-              { n:"02", t:"Diseño y validación", d:"Diseño en Figma y prototipo navegable en Vercel. Dos revisiones incluidas.", list:["Figma","Demo Vercel","2 revisiones"] },
-              { n:"03", t:"Desarrollo y producción", d:"Next.js, Supabase e integraciones. Optimización 100/100.", list:["Next.js + Supabase","Integraciones","100/100"] },
-              { n:"04", t:"Entrega y soporte técnico", d:"Deploy final, capacitación y 30 días de soporte.", list:["Deploy","Capacitación","30 días soporte"] },
+              { n:"01", t:"Relevamiento y propuesta técnica", d:"Reunión inicial para relevar objetivos, público y alcance. Presentación de propuesta técnica y presupuesto detallado en 24 horas.", list:["Reunión inicial de 30 minutos","Propuesta técnica detallada","Presupuesto cerrado"] },
+              { n:"02", t:"Diseño y validación", d:"Diseño de interfaz en Figma y prototipo navegable desplegado en entorno de prueba. Incluye dos instancias de revisión.", list:["Diseño en Figma","Entorno de prueba en Vercel","Dos revisiones incluidas"] },
+              { n:"03", t:"Desarrollo y producción", d:"Desarrollo en Next.js, integración con base de datos y servicios externos. Optimización de rendimiento y posicionamiento.", list:["Next.js + Supabase","Integración de pagos y servicios","Optimización 100/100"] },
+              { n:"04", t:"Entrega y soporte técnico", d:"Puesta en producción en dominio final, capacitación para la gestión y 30 días de soporte para ajustes menores.", list:["Puesta en producción","Capacitación incluida","30 días de soporte"] },
             ].map((s) => (
-              <div key={s.n} className="rounded-[18px] border border-white/10 bg-[#0E172E]/60 p-6 hover:bg-[#111E3A] transition-all">
-                <div className="flex gap-5"><span className="text-[11px] font-black tracking-widest text-[#60A5FA] mt-1">{s.n}</span><div className="flex-1"><h4 className="text-[15px] font-black tracking-tight">{s.t}</h4><p className="mt-2 text-[12px] leading-[1.6] text-white/40">{s.d}</p><div className="mt-3 flex flex-wrap gap-2">{s.list.map(l => (<span key={l} className="text-[9px] font-bold tracking-widest px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-white/40">{l}</span>))}</div></div></div>
+              <div key={s.n} className="rounded-[18px] border border-white/10 bg-[#0E172E]/60 p-6">
+                <div className="flex gap-5">
+                  <span className="text-[11px] font-black tracking-widest text-[#60A5FA] mt-1">{s.n}</span>
+                  <div className="flex-1">
+                    <h4 className="text-[15px] font-black tracking-tight">{s.t}</h4>
+                    <p className="mt-2 text-[12px] leading-[1.6] text-white/40 font-medium">{s.d}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">{s.list.map(l => (<span key={l} className="text-[9px] font-bold tracking-widest px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-white/40">{l}</span>))}</div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FORMULARIO OSCURO */}
       <section id="contacto" className="px-6 md:px-12 py-20 border-t border-white/10 max-w-[1400px] mx-auto grid md:grid-cols-2 gap-10 items-start">
         <div className="rounded-[20px] overflow-hidden border border-white/10 h-[500px] bg-[#0d1d3a] relative">
           {!showMap? (<div onClick={() => setShowMap(true)} className="absolute inset-0 cursor-pointer flex flex-col items-center justify-center gap-3 group"><Image src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=60&auto=format&fit=crop" alt="mapa" fill className="object-cover opacity-30" /><div className="relative z-10 bg-white text-black px-5 py-2.5 rounded-full text-[10px] font-black tracking-widest group-hover:scale-105 transition">VER UBICACIÓN — RÍO CUARTO</div></div>) : (<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d107000!2d-64.38!3d-33.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95d2000e4f8a6a1b%3A0x1c1c1c1c!2sR%C3%ADo%20Cuarto!5e0!3m2!1ses!2sar!4v123" width="100%" height="100%" style={{border:0, filter:"invert(90%) hue-rotate(180deg)"}} loading="lazy"></iframe>)}
